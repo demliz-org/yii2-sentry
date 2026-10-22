@@ -34,7 +34,9 @@ class SentryTargetTest extends Unit
     {
         $class = new ReflectionClass(SentryTarget::className());
         $method = $class->getMethod('getContextMessage');
-        $method->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
 
         $sentryTarget = new SentryTarget();
         $result = $method->invokeArgs($sentryTarget, []);
@@ -197,7 +199,9 @@ class SentryTargetTest extends Unit
     {
         $sentryTargetClass = new ReflectionClass("\Sentry\Client");
         $clientProperty = $sentryTargetClass->getProperty('transport');
-        $clientProperty->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $clientProperty->setAccessible(true);
+        }
 
         return $clientProperty;
     }
